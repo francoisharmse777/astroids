@@ -4,6 +4,7 @@
 from pathlib import Path
 
 from pygame.image import load
+from pygame.math import Vector2
 
 '''
 This method is used to load sprite from the assets folder
@@ -12,6 +13,8 @@ This method is used to load sprite from the assets folder
 :return: sprite object
 :rtype: pygame.Surface
 '''
+
+
 def load_sprite(name, with_alpha=True):
     filename = Path(__file__).parent / Path(f"assets/sprites/{name}.png")
     sprite = load(filename.resolve())
@@ -20,3 +23,9 @@ def load_sprite(name, with_alpha=True):
         return sprite.convert_alpha()
 
     return sprite.convert()
+
+
+def wrap_position(position, surface):
+    x, y = position
+    w, h = surface.get_size()
+    return Vector2(x % w, y % h)

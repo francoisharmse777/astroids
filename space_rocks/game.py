@@ -1,6 +1,6 @@
 import pygame
 
-from models import SpaceShip
+from models import SpaceShip, Rock
 from utils import load_sprite
 
 '''
@@ -20,8 +20,7 @@ class SpaceRocks:
         self.background = load_sprite("space", False)
 
         self.ship = SpaceShip((400, 300))
-
-        self.collision_count = 0
+        self.rocks = [Rock(self.screen, self.ship.position) for _ in range(6)]
 
     '''
     Run the main loop.    
@@ -49,13 +48,26 @@ class SpaceRocks:
             self.ship.rotate(clock_wise=True)
         elif is_key_pressed[pygame.K_LEFT]:
             self.ship.rotate(clock_wise=False)
+        elif is_key_pressed[pygame.K_UP]:
+            self.ship.accelerate()
+
+    @property
+    def game_objects(self):
+        #  By using the star operator (*) inside of this list,
+        #  it deconstructs the rock list, so the result returned here is a single
+        #  list with all the rocks plus the ship.
+        return [*self.rocks, self.ship]
 
     '''
     Run the game logic.
+    The ._game_logic() method handles the motion of anything that has a velocity. 
+    With the new .game_objects() property, this method can be simplified to iterate 
+    over every object in the game and calling each object’s .move() method. Let me scroll down.
     '''
 
     def _game_logic(self):
-        self.ship.move()
+        for obj in self.game_objects:
+            obj.move(self.screen)
 
     '''
     Draw the game window.    
@@ -63,7 +75,12 @@ class SpaceRocks:
 
     def _draw(self):
         self.screen.blit(self.background, (0, 0))
-        self.ship.draw(self.screen)
+
+        # And here’s that same .game_objects() property once again—this time,
+        # used to draw each of the objects in the game.
+        for obj in self.game_objects:
+            obj.draw(self.screen)
+
         pygame.display.flip()
 
         self.clock.tick(30)
