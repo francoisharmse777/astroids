@@ -51,7 +51,7 @@ class GameObject:
 
 
 class SpaceShip(GameObject):
-    ROTATION_SPEED = 3
+    ROTATION_SPEED = 5
 
     def __init__(self, position):
         self.direction = Vector2(DIRECTION_UP)
