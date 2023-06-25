@@ -8,7 +8,7 @@ It can be drawn to a surface, moved, and checked for collisions.
 
 
 class GameObject:
-    def __init__(self, position, size, sprite, velocity):
+    def __init__(self, position, sprite, velocity):
         self.position = Vector2(position)
         self.sprite = sprite
         self.radius = self.sprite.get_width() / 2
