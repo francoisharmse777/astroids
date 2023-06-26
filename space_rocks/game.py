@@ -49,7 +49,7 @@ class SpaceRocks:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and self.ship:
                 if event.key == pygame.K_SPACE:
                     self.ship.shoot()
 
